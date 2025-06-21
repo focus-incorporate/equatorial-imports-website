@@ -32,12 +32,29 @@ export interface CustomerInfo {
   deliveryNotes?: string;
 }
 
+export interface CustomerData {
+  name: string;
+  email: string;
+  phone: string;
+  createAccount: boolean;
+}
+
+export interface DeliveryData {
+  address: string;
+  district: string;
+  island: 'mahe' | 'praslin' | 'la-digue' | 'other';
+  deliveryNotes: string;
+  timePreference: 'morning' | 'afternoon' | 'evening' | 'anytime';
+}
+
 export interface Order {
   id: string;
   customer: CustomerInfo;
   items: CartItem[];
   total: number;
+  deliveryFee: number;
   status: 'pending' | 'confirmed' | 'delivered';
-  createdAt: Date;
+  createdAt: string;
   paymentMethod: 'cash-on-delivery';
+  timePreference?: string;
 }

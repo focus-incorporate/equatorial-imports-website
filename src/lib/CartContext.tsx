@@ -1,7 +1,8 @@
 'use client';
 
-import { createContext, useContext, useReducer, ReactNode } from 'react';
+import { createContext, useContext, useReducer, useEffect, useState, ReactNode } from 'react';
 import { CartItem, Product } from '@/types';
+import { useToast } from './ToastContext';
 
 interface CartState {
   items: CartItem[];
@@ -13,7 +14,8 @@ type CartAction =
   | { type: 'ADD_ITEM'; product: Product; quantity?: number }
   | { type: 'REMOVE_ITEM'; productId: string }
   | { type: 'UPDATE_QUANTITY'; productId: string; quantity: number }
-  | { type: 'CLEAR_CART' };
+  | { type: 'CLEAR_CART' }
+  | { type: 'HYDRATE_CART'; state: CartState };
 
 interface CartContextType {
   state: CartState;
@@ -89,11 +91,17 @@ function cartReducer(state: CartState, action: CartAction): CartState {
     case 'CLEAR_CART':
       return { items: [], total: 0, itemCount: 0 };
 
+    case 'HYDRATE_CART':
+      return action.state;
+
     default:
       return state;
   }
 }
 
+const CART_STORAGE_KEY = 'equatorial-imports-cart';
+
+// Always start with empty cart for SSR consistency
 const initialState: CartState = {
   items: [],
   total: 0,
@@ -102,9 +110,63 @@ const initialState: CartState = {
 
 export function CartProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(cartReducer, initialState);
+  const [isHydrated, setIsHydrated] = useState(false);
+  
+  // Use toast hook properly
+  const { showToast } = useToast();
+
+  // Hydrate cart from localStorage on client side
+  useEffect(() => {
+    if (typeof window !== 'undefined' && !isHydrated) {
+      try {
+        const stored = localStorage.getItem(CART_STORAGE_KEY);
+        if (stored) {
+          const parsedState = JSON.parse(stored);
+          // Recalculate totals to ensure consistency
+          const total = parsedState.items.reduce(
+            (sum: number, item: CartItem) => sum + item.product.price * item.quantity,
+            0
+          );
+          const itemCount = parsedState.items.reduce(
+            (sum: number, item: CartItem) => sum + item.quantity, 
+            0
+          );
+          const hydratedState = { ...parsedState, total, itemCount };
+          
+          // Only dispatch if there are items to restore
+          if (hydratedState.items.length > 0) {
+            dispatch({ type: 'HYDRATE_CART', state: hydratedState });
+          }
+        }
+      } catch (error) {
+        console.error('Failed to hydrate cart from localStorage:', error);
+      }
+      setIsHydrated(true);
+    }
+  }, [isHydrated]);
+
+  // Save cart to localStorage whenever state changes (but not during initial hydration)
+  useEffect(() => {
+    if (isHydrated && typeof window !== 'undefined') {
+      try {
+        localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(state));
+      } catch (error) {
+        console.error('Failed to save cart to localStorage:', error);
+      }
+    }
+  }, [state, isHydrated]);
 
   const addItem = (product: Product, quantity = 1) => {
+    if (!product.inStock) {
+      showToast(`${product.name} is currently out of stock`, 'error');
+      return;
+    }
+    
     dispatch({ type: 'ADD_ITEM', product, quantity });
+    showToast(
+      `${quantity} × ${product.name} added to cart`, 
+      'success'
+    );
   };
 
   const removeItem = (productId: string) => {

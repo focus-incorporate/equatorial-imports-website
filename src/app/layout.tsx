@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
 import "./globals.css";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
+import LayoutWithCart from "@/components/LayoutWithCart";
 import { CartProvider } from "@/lib/CartContext";
+import { ToastProvider } from "@/lib/ToastContext";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -31,13 +31,13 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${playfair.variable} antialiased`}
       >
-        <CartProvider>
-          <Navbar />
-          <main className="pt-16">
-            {children}
-          </main>
-          <Footer />
-        </CartProvider>
+        <ToastProvider>
+          <CartProvider>
+            <LayoutWithCart>
+              {children}
+            </LayoutWithCart>
+          </CartProvider>
+        </ToastProvider>
       </body>
     </html>
   );

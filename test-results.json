@@ -1,0 +1,339 @@
+{
+  "config": {
+    "configFile": "/Users/ether/Documents/GitHub/equatorial-imports-website/playwright.config.ts",
+    "rootDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e",
+    "forbidOnly": false,
+    "fullyParallel": true,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "reporter": [
+      [
+        "html",
+        {
+          "outputFolder": "playwright-report"
+        }
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "quiet": false,
+    "projects": [
+      {
+        "outputDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "chromium",
+        "name": "chromium",
+        "testDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "firefox",
+        "name": "firefox",
+        "testDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "webkit",
+        "name": "webkit",
+        "testDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "Mobile Chrome",
+        "name": "Mobile Chrome",
+        "testDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "Mobile Safari",
+        "name": "Mobile Safari",
+        "testDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e",
+        "testIgnore": [],
+        "testMatch": [
+          "**/*.@(spec|test).?(c|m)[jt]s?(x)"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "shard": null,
+    "updateSnapshots": "missing",
+    "updateSourceMethod": "patch",
+    "version": "1.53.1",
+    "workers": 4,
+    "webServer": {
+      "command": "npm run dev",
+      "url": "http://localhost:3000",
+      "reuseExistingServer": true,
+      "timeout": 120000
+    }
+  },
+  "suites": [
+    {
+      "title": "complete-checkout-flow.spec.ts",
+      "file": "complete-checkout-flow.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [],
+      "suites": [
+        {
+          "title": "Complete E-commerce Checkout Flow",
+          "file": "complete-checkout-flow.spec.ts",
+          "line": 18,
+          "column": 6,
+          "specs": [
+            {
+              "title": "Complete checkout flow from homepage to order success",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 30000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 0,
+                      "parallelIndex": 0,
+                      "status": "timedOut",
+                      "duration": 30660,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/complete-checkout-flow.spec.ts",
+                            "column": 26,
+                            "line": 270
+                          },
+                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"address\"], textarea[name=\"address\"], input[placeholder*=\"address\"]').first()\u001b[22m\n\n\n  268 |       const districtSelect = await page.locator('select[name=\"district\"], select[id=\"district\"]').first();\n  269 |       \n> 270 |       await addressInput.fill('123 Main Street, Victoria');\n      |                          ^\n  271 |       await islandSelect.selectOption('mahe');\n  272 |       await districtSelect.selectOption('Victoria');\n  273 |       \n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/complete-checkout-flow.spec.ts:270:26\n    at trackStep (/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/complete-checkout-flow.spec.ts:106:22)\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/complete-checkout-flow.spec.ts:259:5"
+                        }
+                      ],
+                      "stdout": [
+                        {
+                          "text": "🚀 Starting Complete Checkout Flow Test...\n"
+                        },
+                        {
+                          "text": "\n📝 Step: Navigate to Homepage\n"
+                        },
+                        {
+                          "text": "📸 Screenshot captured: checkout-01-homepage-2025-06-20T06-51-34-017Z.png\n"
+                        },
+                        {
+                          "text": "✅ Navigate to Homepage completed in 3874ms\n"
+                        },
+                        {
+                          "text": "\n📝 Step: Navigate to Coffee Page\n"
+                        },
+                        {
+                          "text": "📸 Screenshot captured: checkout-02-coffee-page-2025-06-20T06-51-36-014Z.png\n"
+                        },
+                        {
+                          "text": "   Found 10 products on page\n"
+                        },
+                        {
+                          "text": "✅ Navigate to Coffee Page completed in 1990ms\n"
+                        },
+                        {
+                          "text": "\n📝 Step: Add Product to Cart\n"
+                        },
+                        {
+                          "text": "📸 Screenshot captured: checkout-03-product-added-2025-06-20T06-51-37-446Z.png\n"
+                        },
+                        {
+                          "text": "✅ Add Product to Cart completed in 1428ms\n"
+                        },
+                        {
+                          "text": "\n📝 Step: Open Cart Drawer\n"
+                        },
+                        {
+                          "text": "📸 Screenshot captured: checkout-04-cart-opened-2025-06-20T06-51-38-836Z.png\n"
+                        },
+                        {
+                          "text": "✅ Open Cart Drawer completed in 1434ms\n"
+                        },
+                        {
+                          "text": "\n📝 Step: Click Checkout Button\n"
+                        },
+                        {
+                          "text": "📸 Screenshot captured: checkout-05-checkout-clicked-2025-06-20T06-51-41-289Z.png\n"
+                        },
+                        {
+                          "text": "✅ Click Checkout Button completed in 2187ms\n"
+                        },
+                        {
+                          "text": "\n📝 Step: Cart Review Step\n"
+                        },
+                        {
+                          "text": "📸 Screenshot captured: checkout-06-cart-review-2025-06-20T06-51-41-418Z.png\n"
+                        },
+                        {
+                          "text": "✅ Cart Review Step completed in 1135ms\n"
+                        },
+                        {
+                          "text": "\n📝 Step: Customer Information Step\n"
+                        },
+                        {
+                          "text": "📸 Screenshot captured: checkout-07-customer-info-2025-06-20T06-51-42-554Z.png\n"
+                        },
+                        {
+                          "text": "✅ Customer Information Step completed in 2197ms\n"
+                        },
+                        {
+                          "text": "\n📝 Step: Delivery Information Step\n"
+                        },
+                        {
+                          "text": "📸 Screenshot captured: checkout-08-delivery-info-2025-06-20T06-51-44-752Z.png\n"
+                        },
+                        {
+                          "text": "\n📊 Test Metrics Summary:\n"
+                        },
+                        {
+                          "text": "   Total Time: 29804ms\n"
+                        },
+                        {
+                          "text": "   Screenshots: 8\n"
+                        },
+                        {
+                          "text": "   Errors: 0\n"
+                        },
+                        {
+                          "text": "\n⏱️ Step Performance:\n"
+                        },
+                        {
+                          "text": "   Navigate to Homepage: 3874ms\n"
+                        },
+                        {
+                          "text": "   Navigate to Coffee Page: 1990ms\n"
+                        },
+                        {
+                          "text": "   Add Product to Cart: 1428ms\n"
+                        },
+                        {
+                          "text": "   Open Cart Drawer: 1434ms\n"
+                        },
+                        {
+                          "text": "   Click Checkout Button: 2187ms\n"
+                        },
+                        {
+                          "text": "   Cart Review Step: 1135ms\n"
+                        },
+                        {
+                          "text": "   Customer Information Step: 2197ms\n"
+                        },
+                        {
+                          "text": "❌ Delivery Information Step failed after 15760ms\n"
+                        }
+                      ],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-20T06:51:29.075Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/complete-checkout-flow-Com-3a0e9-m-homepage-to-order-success-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/complete-checkout-flow-Com-3a0e9-m-homepage-to-order-success-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/complete-checkout-flow-Com-3a0e9-m-homepage-to-order-success-chromium/error-context.md"
+                        }
+                      ]
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "db2d50f86363de72574b-42fb5cab8eee28f52b46",
+              "file": "complete-checkout-flow.spec.ts",
+              "line": 119,
+              "column": 7
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2025-06-20T06:51:23.841Z",
+    "duration": 37851.307,
+    "expected": 0,
+    "skipped": 0,
+    "unexpected": 1,
+    "flaky": 0
+  }
+}

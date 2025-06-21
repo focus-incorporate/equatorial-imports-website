@@ -7,7 +7,7 @@ import { Product } from '@/types';
 
 interface ProductCardProps {
   product: Product;
-  onAddToCart: (product: Product) => void;
+  onAddToCart: (product: Product, quantity?: number) => void;
 }
 
 export default function ProductCard({ product, onAddToCart }: ProductCardProps) {
@@ -157,11 +157,14 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
 
             {/* Add to Cart Button */}
             <button
-              onClick={() => onAddToCart(product)}
-              className="bg-coffee-600 text-white px-4 py-2 rounded-lg hover:bg-coffee-700 transition-colors flex items-center space-x-1 group"
+              onClick={() => onAddToCart(product, quantity)}
+              disabled={!product.inStock}
+              className="bg-coffee-600 text-white px-4 py-2 rounded-lg hover:bg-coffee-700 transition-colors flex items-center space-x-1 group disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ShoppingCart size={16} />
-              <span className="text-sm font-medium">Add</span>
+              <span className="text-sm font-medium">
+                {product.inStock ? 'Add' : 'Out of Stock'}
+              </span>
             </button>
           </div>
         </div>

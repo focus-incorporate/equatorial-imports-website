@@ -2,35 +2,39 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 import { X, Plus, Minus, ShoppingBag, CreditCard } from 'lucide-react';
 import { useCart } from '@/lib/CartContext';
-import CheckoutModal from './CheckoutModal';
 
 interface CartDrawerProps {
   isOpen: boolean;
   onClose: () => void;
+  onCheckout?: () => void;
 }
 
-export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
+export default function CartDrawer({ isOpen, onClose, onCheckout }: CartDrawerProps) {
   const { state, updateQuantity, removeItem, clearCart } = useCart();
-  const [showCheckout, setShowCheckout] = useState(false);
+  const router = useRouter();
 
   const handleCheckout = () => {
-    setShowCheckout(true);
+    onClose();
+    router.push('/checkout');
   };
 
-  if (!isOpen) return null;
-
   return (
-    <>
+    <div className={`fixed inset-0 z-[60] transition-opacity duration-300 ${
+      isOpen ? 'opacity-100' : 'opacity-0 pointer-events-none'
+    }`}>
       {/* Backdrop */}
       <div 
-        className="fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity"
+        className="absolute inset-0 bg-black bg-opacity-50"
         onClick={onClose}
       />
 
       {/* Drawer */}
-      <div className="fixed right-0 top-0 h-full w-full max-w-md bg-white z-50 transform transition-transform duration-300 overflow-y-auto">
+      <div className={`absolute right-0 top-0 h-full w-full max-w-md bg-white transform transition-transform duration-300 ease-in-out overflow-y-auto sm:max-w-sm shadow-2xl ${
+        isOpen ? 'translate-x-0' : 'translate-x-full'
+      }`}>
         {/* Header */}
         <div className="sticky top-0 bg-white border-b border-cream-200 p-4 flex items-center justify-between">
           <div className="flex items-center space-x-2">
@@ -73,7 +77,7 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   className="bg-cream-50 rounded-lg p-4 flex items-center space-x-4"
                 >
                   {/* Product Image */}
-                  <div className="w-16 h-16 relative flex-shrink-0">
+                  <div className="w-12 h-12 sm:w-16 sm:h-16 relative flex-shrink-0">
                     <Image
                       src={item.product.image}
                       alt={item.product.name}
@@ -83,11 +87,11 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   </div>
 
                   {/* Product Info */}
-                  <div className="flex-1 min-w-0">
-                    <h4 className="font-semibold text-coffee-900 truncate">
+                  <div className="flex-1 min-w-0 pr-2">
+                    <h4 className="font-semibold text-coffee-900 truncate text-sm sm:text-base">
                       {item.product.name}
                     </h4>
-                    <p className="text-sm text-coffee-600 capitalize">
+                    <p className="text-xs sm:text-sm text-coffee-600 capitalize">
                       {item.product.brand === 'daniels-blend' ? "Daniel's Blend" : 'Viaggio Espresso'}
                     </p>
                     <p className="text-sm font-semibold text-coffee-800">
@@ -96,31 +100,33 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
                   </div>
 
                   {/* Quantity Controls */}
-                  <div className="flex items-center space-x-2">
+                  <div className="flex flex-col sm:flex-row items-center space-y-2 sm:space-y-0 sm:space-x-2">
+                    <div className="flex items-center space-x-2">
+                      <button
+                        onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-coffee-200 hover:bg-coffee-300 flex items-center justify-center transition-colors"
+                      >
+                        <Minus size={12} className="text-coffee-700" />
+                      </button>
+                      <span className="w-6 sm:w-8 text-center font-semibold text-coffee-900 text-sm">
+                        {item.quantity}
+                      </span>
+                      <button
+                        onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
+                        className="w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-coffee-200 hover:bg-coffee-300 flex items-center justify-center transition-colors"
+                      >
+                        <Plus size={12} className="text-coffee-700" />
+                      </button>
+                    </div>
+
+                    {/* Remove Button */}
                     <button
-                      onClick={() => updateQuantity(item.product.id, item.quantity - 1)}
-                      className="w-8 h-8 rounded-full bg-coffee-200 hover:bg-coffee-300 flex items-center justify-center transition-colors"
+                      onClick={() => removeItem(item.product.id)}
+                      className="p-1 hover:bg-coffee-200 rounded-full transition-colors"
                     >
-                      <Minus size={14} className="text-coffee-700" />
-                    </button>
-                    <span className="w-8 text-center font-semibold text-coffee-900">
-                      {item.quantity}
-                    </span>
-                    <button
-                      onClick={() => updateQuantity(item.product.id, item.quantity + 1)}
-                      className="w-8 h-8 rounded-full bg-coffee-200 hover:bg-coffee-300 flex items-center justify-center transition-colors"
-                    >
-                      <Plus size={14} className="text-coffee-700" />
+                      <X size={14} className="text-coffee-600" />
                     </button>
                   </div>
-
-                  {/* Remove Button */}
-                  <button
-                    onClick={() => removeItem(item.product.id)}
-                    className="p-1 hover:bg-coffee-200 rounded-full transition-colors"
-                  >
-                    <X size={16} className="text-coffee-600" />
-                  </button>
                 </div>
               ))}
 
@@ -153,10 +159,10 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
             {/* Checkout Button */}
             <button
               onClick={handleCheckout}
-              className="w-full bg-coffee-600 text-white py-4 rounded-full font-semibold text-lg hover:bg-coffee-700 transition-colors flex items-center justify-center space-x-2"
+              className="w-full bg-coffee-600 text-white py-3 sm:py-4 rounded-full font-semibold text-base sm:text-lg hover:bg-coffee-700 transition-colors flex items-center justify-center space-x-2"
             >
-              <CreditCard size={20} />
-              <span>Checkout (Cash on Delivery)</span>
+              <CreditCard size={18} className="sm:size-5" />
+              <span className="truncate">Checkout (Cash on Delivery)</span>
             </button>
 
             {/* Delivery Info */}
@@ -167,11 +173,6 @@ export default function CartDrawer({ isOpen, onClose }: CartDrawerProps) {
         )}
       </div>
 
-      {/* Checkout Modal */}
-      <CheckoutModal 
-        isOpen={showCheckout} 
-        onClose={() => setShowCheckout(false)} 
-      />
-    </>
+    </div>
   );
 }

@@ -1,0 +1,113 @@
+# Page snapshot
+
+```yaml
+- navigation:
+  - link "Equatorial Imports Equatorial Imports":
+    - /url: /
+    - img "Equatorial Imports"
+    - text: Equatorial Imports
+  - link "Home":
+    - /url: /
+  - link "Coffee":
+    - /url: /coffee
+  - link "About Us":
+    - /url: /about
+  - link "Contact":
+    - /url: /contact
+  - button "Shopping cart with 1 items": "1"
+- main:
+  - heading "Checkout" [level=1]
+  - paragraph: Complete your order for premium coffee delivery to Seychelles
+  - text: Cart Review Customer Info 3 Delivery 4 Payment 5 Review Order
+  - heading "Delivery Information" [level=2]
+  - text: Island
+  - combobox:
+    - option "Mahé" [selected]
+    - option "Praslin"
+    - option "La Digue"
+    - option "Other Island"
+  - text: District / Area
+  - combobox "District / Area":
+    - option "Select a district" [selected]
+    - option "Victoria"
+    - option "Beau Vallon"
+    - option "Glacis"
+    - option "Mont Fleuri"
+    - option "Roche Caiman"
+    - option "St. Louis"
+    - option "Anse Royale"
+    - option "Takamaka"
+    - option "Baie Lazare"
+    - option "Anse Boileau"
+    - option "Cascade"
+    - option "Grand Anse Mahe"
+    - option "Port Glaud"
+    - option "Pointe La Rue"
+  - text: Street Address
+  - textbox "Street Address"
+  - text: Preferred Delivery Time
+  - radio "Morning (8AM - 12PM)"
+  - text: Morning (8AM - 12PM)
+  - radio "Afternoon (12PM - 5PM)"
+  - text: Afternoon (12PM - 5PM)
+  - radio "Evening (5PM - 8PM)"
+  - text: Evening (5PM - 8PM)
+  - radio "Anytime" [checked]
+  - text: Anytime Delivery Notes (Optional)
+  - textbox "Delivery Notes (Optional)"
+  - heading "Delivery Summary" [level=3]
+  - text: "Delivery Fee: SCR 25 Estimated Time: Same day delivery available * Cash on delivery payment only. We'll contact you to confirm delivery time."
+  - button "Back to Customer Info"
+  - button "Continue to Payment"
+- contentinfo:
+  - img "Equatorial Imports"
+  - text: Equatorial Imports
+  - paragraph: Sourcing the finest food and beverages from around the world, delivering premium taste experiences to Seychelles.
+  - heading "Quick Links" [level=3]
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: /
+    - listitem:
+      - link "Coffee Collection":
+        - /url: /coffee
+    - listitem:
+      - link "About Us":
+        - /url: /about
+    - listitem:
+      - link "Contact":
+        - /url: /contact
+  - heading "Contact Info" [level=3]
+  - list:
+    - listitem: Seychelles
+    - listitem: +248 XXX XXXX
+    - listitem: info@equatorialimports.sc
+  - heading "Business Hours" [level=3]
+  - list:
+    - listitem: "Mon - Fri: 8:00 AM - 5:00 PM"
+    - listitem: "Sat: 9:00 AM - 2:00 PM"
+    - listitem: "Sun: Closed"
+  - paragraph:
+    - strong: "Payment:"
+    - text: Cash on Delivery Available
+  - paragraph: © 2024 Equatorial Imports. All rights reserved.
+  - paragraph: Chasing the world's finest flavors to Seychelles
+- heading "Shopping Cart" [level=2]
+- button
+- img "Ristretto"
+- heading "Ristretto" [level=4]
+- paragraph: Daniel's Blend
+- paragraph: $9.99
+- button
+- text: "1"
+- button
+- button
+- button "Clear Cart"
+- paragraph: 1 item
+- paragraph: $9.99
+- button "Checkout (Cash on Delivery)"
+- paragraph: Free delivery throughout Seychelles • Cash on delivery available
+- alert: Equatorial Imports - Premium Coffee from Around the World
+- button "Open Next.js Dev Tools":
+  - img
+```

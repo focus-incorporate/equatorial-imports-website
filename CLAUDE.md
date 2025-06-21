@@ -142,6 +142,19 @@ npm test:watch
 - Monitor GLB loading status (HTTP 200 responses)
 - Screenshot capture for visual verification
 
+## Email System Status
+
+**Current Status:** ⚠️ Development/Testing Mode
+- Resend API integrated with test credentials  
+- Email sending configured but requires domain verification for production
+- See `DEPLOYMENT_CHECKLIST.md` for complete pre-deployment requirements
+
+**Production Requirements:**
+- Domain verification for `equatorialimports.sc`
+- DNS records configuration (SPF/DKIM)  
+- Business email addresses setup
+- 3-5 days lead time for DNS propagation
+
 ## MCP Tools Integration
 
 This project works with the following MCP servers for enhanced development:

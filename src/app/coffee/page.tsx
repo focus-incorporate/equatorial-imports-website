@@ -19,8 +19,8 @@ export default function CoffeePage() {
   const [filterIntensity, setFilterIntensity] = useState<string>('all');
   const [filterRoast, setFilterRoast] = useState<string>('all');
 
-  const handleAddToCart = (product: Product) => {
-    addItem(product);
+  const handleAddToCart = (product: Product, quantity: number = 1) => {
+    addItem(product, quantity);
   };
 
   const filteredDanielsProducts = danielsBlendProducts.filter(product => {

@@ -82,7 +82,7 @@ function MultipleFallingBeans() {
       {beanPositions.map((position, index) => (
         <FallingBean
           key={index}
-          position={position}
+          position={position as [number, number, number]}
           delay={index * 0.8}
           speed={0.3 + Math.random() * 0.4}
         />

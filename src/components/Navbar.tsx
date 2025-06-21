@@ -5,15 +5,20 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Menu, X, ShoppingCart, Coffee } from 'lucide-react';
 import { useCart } from '@/lib/CartContext';
-import CartDrawer from './CartDrawer';
 
-export default function Navbar() {
+interface NavbarProps {
+  isCartOpen?: boolean;
+  onCartToggle?: () => void;
+}
+
+export default function Navbar({ isCartOpen, onCartToggle }: NavbarProps) {
   const [isOpen, setIsOpen] = useState(false);
-  const [isCartOpen, setIsCartOpen] = useState(false);
   const { state } = useCart();
 
   const toggleMenu = () => setIsOpen(!isOpen);
-  const toggleCart = () => setIsCartOpen(!isCartOpen);
+  const toggleCart = () => {
+    onCartToggle?.();
+  };
 
   return (
     <nav className="fixed top-0 w-full z-50 glass-effect">
@@ -135,8 +140,6 @@ export default function Navbar() {
         )}
       </div>
 
-      {/* Cart Drawer */}
-      <CartDrawer isOpen={isCartOpen} onClose={() => setIsCartOpen(false)} />
     </nav>
   );
 }

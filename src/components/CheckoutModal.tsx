@@ -22,19 +22,49 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
     deliveryNotes: ''
   });
   const [orderId, setOrderId] = useState<string>('');
+  const [errors, setErrors] = useState<Partial<CustomerInfo>>({});
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target;
     setCustomerInfo(prev => ({
       ...prev,
-      [e.target.name]: e.target.value
+      [name]: value
     }));
+    
+    // Clear error when user starts typing
+    if (errors[name as keyof CustomerInfo]) {
+      setErrors(prev => ({
+        ...prev,
+        [name]: undefined
+      }));
+    }
   };
 
   const validateForm = () => {
-    return customerInfo.name.trim() !== '' && 
-           customerInfo.email.trim() !== '' && 
-           customerInfo.phone.trim() !== '' && 
-           customerInfo.address.trim() !== '';
+    const newErrors: Partial<CustomerInfo> = {};
+    
+    if (!customerInfo.name.trim()) {
+      newErrors.name = 'Name is required';
+    }
+    
+    if (!customerInfo.email.trim()) {
+      newErrors.email = 'Email is required';
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(customerInfo.email)) {
+      newErrors.email = 'Please enter a valid email address';
+    }
+    
+    if (!customerInfo.phone.trim()) {
+      newErrors.phone = 'Phone number is required';
+    } else if (!/^\+?[\d\s\-\(\)]{8,}$/.test(customerInfo.phone)) {
+      newErrors.phone = 'Please enter a valid phone number';
+    }
+    
+    if (!customerInfo.address.trim()) {
+      newErrors.address = 'Address is required';
+    }
+    
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmitInfo = (e: React.FormEvent) => {
@@ -93,7 +123,9 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
       address: '',
       deliveryNotes: ''
     });
+    setErrors({});
     setOrderId('');
+    setIsSubmitting(false);
     onClose();
   };
 
@@ -136,9 +168,14 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       required
                       value={customerInfo.name}
                       onChange={handleInputChange}
-                      className="w-full p-3 border border-coffee-300 rounded-lg focus:ring-2 focus:ring-coffee-500 focus:border-coffee-500"
+                      className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-coffee-500 focus:border-coffee-500 ${
+                        errors.name ? 'border-red-500' : 'border-coffee-300'
+                      }`}
                       placeholder="Your full name"
                     />
+                    {errors.name && (
+                      <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+                    )}
                   </div>
                   
                   <div>
@@ -153,9 +190,14 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                       required
                       value={customerInfo.phone}
                       onChange={handleInputChange}
-                      className="w-full p-3 border border-coffee-300 rounded-lg focus:ring-2 focus:ring-coffee-500 focus:border-coffee-500"
+                      className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-coffee-500 focus:border-coffee-500 ${
+                        errors.phone ? 'border-red-500' : 'border-coffee-300'
+                      }`}
                       placeholder="+248 XXX XXXX"
                     />
+                    {errors.phone && (
+                      <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+                    )}
                   </div>
                 </div>
 
@@ -171,9 +213,14 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                     required
                     value={customerInfo.email}
                     onChange={handleInputChange}
-                    className="w-full p-3 border border-coffee-300 rounded-lg focus:ring-2 focus:ring-coffee-500 focus:border-coffee-500"
+                    className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-coffee-500 focus:border-coffee-500 ${
+                      errors.email ? 'border-red-500' : 'border-coffee-300'
+                    }`}
                     placeholder="your.email@example.com"
                   />
+                  {errors.email && (
+                    <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+                  )}
                 </div>
 
                 <div>
@@ -188,9 +235,14 @@ export default function CheckoutModal({ isOpen, onClose }: CheckoutModalProps) {
                     required
                     value={customerInfo.address}
                     onChange={handleInputChange}
-                    className="w-full p-3 border border-coffee-300 rounded-lg focus:ring-2 focus:ring-coffee-500 focus:border-coffee-500"
+                    className={`w-full p-3 border rounded-lg focus:ring-2 focus:ring-coffee-500 focus:border-coffee-500 ${
+                      errors.address ? 'border-red-500' : 'border-coffee-300'
+                    }`}
                     placeholder="Street address, district, island"
                   />
+                  {errors.address && (
+                    <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+                  )}
                 </div>
 
                 <div>

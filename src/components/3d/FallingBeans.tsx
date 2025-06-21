@@ -3,7 +3,7 @@
 import { useRef, Suspense, useMemo } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { useGLTF } from '@react-three/drei';
-import { Group } from 'three';
+import { Group, Mesh, Material, Color } from 'three';
 
 interface FallingBeanProps {
   position: [number, number, number];
@@ -24,21 +24,26 @@ function CoffeeBeanModel({ modelPath }: { modelPath: string }) {
         
         // Enhanced material setup for maximum quality
         clone.traverse((child) => {
-          if (child.isMesh) {
-            if (child.material) {
+          const mesh = child as Mesh;
+          if (mesh.isMesh) {
+            if (mesh.material) {
               // Clone and enhance materials
-              const material = child.material.clone();
+              const material = (mesh.material as Material).clone();
               
               // Enhance material properties for better visibility
-              if (material.color) {
-                material.color.multiplyScalar(1.2); // Brighten colors
+              if ('color' in material && material.color) {
+                (material.color as Color).multiplyScalar(1.2); // Brighten colors
               }
-              material.roughness = Math.max(0.3, material.roughness || 0.5);
-              material.metalness = Math.min(0.8, material.metalness || 0.1);
+              if ('roughness' in material) {
+                material.roughness = Math.max(0.3, (material.roughness as number) || 0.5);
+              }
+              if ('metalness' in material) {
+                material.metalness = Math.min(0.8, (material.metalness as number) || 0.1);
+              }
               
-              child.material = material;
-              child.castShadow = true;
-              child.receiveShadow = true;
+              mesh.material = material;
+              mesh.castShadow = true;
+              mesh.receiveShadow = true;
             }
           }
         });
