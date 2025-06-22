@@ -1,9 +1,9 @@
 'use client';
 
 import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+// Router import removed - using window.location.href
 import { useCart } from '@/lib/CartContext';
-import { sendOrderConfirmationEmail } from '@/lib/emailService';
+// Email service no longer needed - handled by API
 import { User, MapPin, Clock, Banknote, Package } from 'lucide-react';
 
 interface CustomerData {
@@ -33,7 +33,7 @@ export default function OrderReview({
   onBack
 }: OrderReviewProps) {
   const { state, dispatch } = useCart();
-  const router = useRouter();
+  // Router no longer needed - using window.location.href
   const [isPlacingOrder, setIsPlacingOrder] = useState(false);
 
   const getDeliveryFee = () => {
@@ -59,73 +59,71 @@ export default function OrderReview({
   const placeOrder = async () => {
     setIsPlacingOrder(true);
 
-    // Simple timeout to ensure state updates
-    await new Promise(resolve => setTimeout(resolve, 100));
-
     try {
-      // Generate order ID
-      const orderId = `EQ${Date.now().toString().slice(-6)}`;
-      
-      // Create minimal order object
-      const order = {
-        id: orderId,
-        customer: {
-          name: customerData.name || 'Guest Customer',
-          email: customerData.email || 'guest@example.com',
-          phone: customerData.phone || 'Not provided',
-          address: `${deliveryData.address || 'Address not provided'}, ${deliveryData.district || 'District not provided'}, ${deliveryData.island || 'mahe'}`,
-          deliveryNotes: deliveryData.deliveryNotes || ''
-        },
-        items: state.items || [],
-        total: finalTotal || 0,
-        deliveryFee: deliveryFee || 0,
-        paymentMethod: 'cash-on-delivery' as const,
-        status: 'pending' as const,
-        createdAt: new Date().toISOString(),
-        timePreference: deliveryData.timePreference || 'anytime'
+      // Prepare order data for the new API
+      const orderData = {
+        customerName: customerData.name,
+        customerEmail: customerData.email,
+        customerPhone: customerData.phone,
+        deliveryAddress: `${deliveryData.address}, ${deliveryData.district}, ${deliveryData.island}`,
+        deliveryNotes: deliveryData.deliveryNotes,
+        timePreference: deliveryData.timePreference,
+        items: state.items.map(item => ({
+          productId: item.product.id,
+          name: item.product.name,
+          brand: item.product.brand,
+          price: item.product.price,
+          quantity: item.quantity,
+        })),
+        subtotal: state.total,
+        deliveryFee: deliveryFee,
+        total: finalTotal,
+        paymentMethod: 'cash-on-delivery',
       };
 
-      // Save to localStorage with error handling
-      try {
-        const orders = JSON.parse(localStorage.getItem('orders') || '[]');
-        orders.push(order);
-        localStorage.setItem('orders', JSON.stringify(orders));
-      } catch (storageError) {
-        console.warn('localStorage not available, order will not be persisted');
+      // Send order to the integrated API
+      const response = await fetch('/api/orders', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(orderData),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || 'Failed to create order');
       }
 
-      // Try to send email (non-blocking)
-      try {
-        await sendOrderConfirmationEmail({
-          orderId,
-          customerName: customerData.name,
-          customerEmail: customerData.email,
-          items: state.items.map(item => ({
-            name: item.product.name,
-            quantity: item.quantity,
-            price: item.product.price
-          })),
-          total: finalTotal,
-          deliveryAddress: order.customer.address
-        });
-      } catch (emailError) {
-        console.warn('Email sending failed, but order will proceed');
+      const result = await response.json();
+      
+      if (!result.success) {
+        throw new Error(result.error || 'Order creation failed');
       }
 
-      // Clear cart
-      try {
-        dispatch({ type: 'CLEAR_CART' });
-      } catch (cartError) {
-        console.warn('Cart clearing failed, but order completed');
-      }
+      console.log('Order created successfully:', result);
 
-      // Navigate to success page
-      window.location.href = `/checkout/success?orderId=${orderId}`;
+      // Clear cart on successful order
+      dispatch({ type: 'CLEAR_CART' });
+
+      // Navigate to success page with the actual order ID
+      window.location.href = `/checkout/success?orderId=${result.orderId}`;
       
     } catch (error) {
       console.error('Order placement error:', error);
       setIsPlacingOrder(false);
-      alert('Order placement failed. Please try again or contact support.');
+      
+      // Show user-friendly error message
+      const errorMessage = error instanceof Error ? error.message : 'Unknown error occurred';
+      if (errorMessage.includes('Insufficient stock')) {
+        alert('Sorry, some items in your cart are no longer available in the requested quantity. Please review your cart and try again.');
+      } else if (errorMessage.includes('Product not found')) {
+        alert('Some products in your cart are no longer available. Please review your cart and try again.');
+      } else {
+        alert('Order placement failed. Please try again or contact support.');
+      }
+    } finally {
+      setIsPlacingOrder(false);
     }
   };
 

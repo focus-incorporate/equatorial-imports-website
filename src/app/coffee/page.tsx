@@ -4,7 +4,7 @@ import { useState } from 'react';
 import dynamic from 'next/dynamic';
 import { Coffee, Filter, Star } from 'lucide-react';
 import ProductCard from '@/components/ProductCard';
-import { danielsBlendProducts, viaggioEspressoProducts } from '@/data/products';
+import { useProducts } from '@/hooks/useProducts';
 import { Product } from '@/types';
 import { useCart } from '@/lib/CartContext';
 
@@ -16,6 +16,7 @@ const FallingBeans = dynamic(() => import('@/components/3d/FallingBeans'), {
 
 export default function CoffeePage() {
   const { addItem } = useCart();
+  const { danielsBlendProducts, viaggioEspressoProducts, isLoading, error } = useProducts();
   const [filterIntensity, setFilterIntensity] = useState<string>('all');
   const [filterRoast, setFilterRoast] = useState<string>('all');
 
@@ -44,6 +45,59 @@ export default function CoffeePage() {
     if (filterRoast !== 'all' && product.roast !== filterRoast) return false;
     return true;
   });
+
+  // Show loading state
+  if (isLoading) {
+    return (
+      <div className="min-h-screen bg-coffee-gradient relative">
+        <FallingBeans />
+        <div className="relative z-10 py-20 text-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-center items-center space-x-3 mb-6">
+              <Coffee className="text-cream-200 animate-pulse" size={48} />
+              <h1 className="text-4xl sm:text-6xl font-display font-bold text-cream-50">
+                Loading Products...
+              </h1>
+            </div>
+            <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-12 max-w-4xl mx-auto">
+              <div className="animate-pulse space-y-4">
+                <div className="h-4 bg-cream-200 rounded w-3/4 mx-auto"></div>
+                <div className="h-4 bg-cream-200 rounded w-1/2 mx-auto"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  // Show error state
+  if (error) {
+    return (
+      <div className="min-h-screen bg-coffee-gradient relative">
+        <FallingBeans />
+        <div className="relative z-10 py-20 text-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-center items-center space-x-3 mb-6">
+              <Coffee className="text-red-400" size={48} />
+              <h1 className="text-4xl sm:text-6xl font-display font-bold text-cream-50">
+                Error Loading Products
+              </h1>
+            </div>
+            <div className="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-12 max-w-4xl mx-auto">
+              <p className="text-cream-200 text-lg mb-4">{error}</p>
+              <button 
+                onClick={() => window.location.reload()} 
+                className="bg-cream-200 text-coffee-900 px-6 py-3 rounded-lg font-semibold hover:bg-cream-100 transition-colors"
+              >
+                Try Again
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-coffee-gradient relative">

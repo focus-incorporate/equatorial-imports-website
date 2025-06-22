@@ -1,0 +1,78 @@
+# Page snapshot
+
+```yaml
+- navigation:
+  - link "Equatorial Imports Equatorial Imports":
+    - /url: /
+    - img "Equatorial Imports"
+    - text: Equatorial Imports
+  - link "Home":
+    - /url: /
+  - link "Coffee":
+    - /url: /coffee
+  - link "About Us":
+    - /url: /about
+  - link "Contact":
+    - /url: /contact
+  - button "Shopping cart with 0 items"
+- main:
+  - heading "Equatorial Imports" [level=1]
+  - paragraph: Admin Dashboard Access
+  - heading "Welcome Back" [level=2]
+  - paragraph: Sign in to your admin account
+  - text: Email Address
+  - textbox "Email Address"
+  - text: Password
+  - textbox "Password"
+  - button
+  - button "Sign In"
+  - heading "Demo Credentials:" [level=3]
+  - paragraph:
+    - strong: "Email:"
+    - text: admin@equatorialimports.sc
+  - paragraph:
+    - strong: "Password:"
+    - text: admin123
+  - paragraph: © 2025 Equatorial Imports. All rights reserved.
+- contentinfo:
+  - img "Equatorial Imports"
+  - text: Equatorial Imports
+  - paragraph: Sourcing the finest food and beverages from around the world, delivering premium taste experiences to Seychelles.
+  - heading "Quick Links" [level=3]
+  - list:
+    - listitem:
+      - link "Home":
+        - /url: /
+    - listitem:
+      - link "Coffee Collection":
+        - /url: /coffee
+    - listitem:
+      - link "About Us":
+        - /url: /about
+    - listitem:
+      - link "Contact":
+        - /url: /contact
+  - heading "Contact Info" [level=3]
+  - list:
+    - listitem: Seychelles
+    - listitem: +248 XXX XXXX
+    - listitem: info@equatorialimports.sc
+  - heading "Business Hours" [level=3]
+  - list:
+    - listitem: "Mon - Fri: 8:00 AM - 5:00 PM"
+    - listitem: "Sat: 9:00 AM - 2:00 PM"
+    - listitem: "Sun: Closed"
+  - paragraph:
+    - strong: "Payment:"
+    - text: Cash on Delivery Available
+  - paragraph: © 2024 Equatorial Imports. All rights reserved.
+  - paragraph: Chasing the world's finest flavors to Seychelles
+- heading "Shopping Cart" [level=2]
+- button
+- heading "Your cart is empty" [level=3]
+- paragraph: Add some delicious coffee to get started!
+- button "Continue Shopping"
+- alert
+- button "Open Next.js Dev Tools":
+  - img
+```

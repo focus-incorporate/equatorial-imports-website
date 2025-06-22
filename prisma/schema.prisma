@@ -1,0 +1,334 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// NextAuth.js required models
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+  @@map("accounts")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  password      String?
+  role          String    @default("admin") // admin, staff, manager
+  isActive      Boolean   @default(true)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  // Relations
+  accounts              Account[]
+  sessions              Session[]
+  posTransactions       POSTransaction[]
+  inventoryTransactions InventoryTransaction[]
+
+  @@map("users")
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+  @@map("verification_tokens")
+}
+
+// Products (Enhanced)
+model Product {
+  id          String  @id @default(cuid())
+  name        String
+  brand       String  // daniels-blend, viaggio-espresso
+  type        String  // capsules, beans
+  intensity   Int
+  roast       String  // light, medium, dark
+  flavorNotes String  // JSON array as string
+  price       Float
+  image       String
+  description String
+  compatibility String? // JSON array as string
+  weight      String?
+  inStock     Boolean @default(true)
+  
+  // Enhanced inventory fields
+  currentStock    Int     @default(0)
+  minStockLevel   Int     @default(5)
+  maxStockLevel   Int     @default(100)
+  costPrice       Float?
+  barcode         String?
+  category        String  @default("general")
+  taxRate         Float @default(0)
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relations
+  orderItems            OrderItem[]
+  posTransactionItems   POSTransactionItem[]
+  inventoryTransactions InventoryTransaction[]
+
+  // Unique constraints to prevent duplicates
+  @@unique([name, brand, type, weight])
+  @@unique([barcode])
+  @@map("products")
+}
+
+// Customers
+model Customer {
+  id             String    @id @default(cuid())
+  name           String
+  email          String?
+  phone          String?
+  address        String?
+  dateOfBirth    DateTime?
+  loyaltyPoints  Int       @default(0)
+  creditLimit    Float   @default(0)
+  customerGroup  String    @default("regular")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @updatedAt
+
+  // Relations
+  orders         Order[]
+  posTransactions POSTransaction[]
+  invoices       Invoice[]
+
+  // Unique constraints to prevent duplicates
+  @@unique([email])
+  @@unique([phone])
+  @@map("customers")
+}
+
+// Orders (Enhanced from existing)
+model Order {
+  id             String   @id @default(cuid())
+  customerId     String?
+  customerName   String
+  customerEmail  String
+  customerPhone  String
+  deliveryAddress String
+  deliveryNotes  String?
+  timePreference String?
+  
+  subtotal       Float
+  deliveryFee    Float
+  taxAmount      Float  @default(0)
+  discountAmount Float  @default(0)
+  total          Float
+  
+  status         String   @default("pending") // pending, confirmed, on_the_way, delivered, cancelled
+  paymentMethod  String   @default("cash-on-delivery")
+  paymentStatus  String   @default("pending") // pending, paid, partially_paid, failed
+  
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  // Relations
+  customer       Customer? @relation(fields: [customerId], references: [id])
+  items          OrderItem[]
+  invoices       Invoice[]
+
+  @@map("orders")
+}
+
+// Order Items
+model OrderItem {
+  id            String  @id @default(cuid())
+  orderId       String
+  productId     String
+  productName   String  // Added missing field used by order creation API
+  quantity      Int
+  unitPrice     Float
+  lineTotal     Float
+  discountAmount Float @default(0)
+
+  // Relations
+  order         Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  product       Product @relation(fields: [productId], references: [id])
+
+  @@map("order_items")
+}
+
+// POS Transactions
+model POSTransaction {
+  id                String   @id @default(cuid())
+  transactionNumber String   @unique
+  customerId        String?
+  staffId           String
+  
+  subtotal          Float
+  taxAmount         Float
+  discountAmount    Float  @default(0)
+  totalAmount       Float
+  
+  paymentMethod     String   // cash, card, mixed
+  cashReceived      Float?
+  changeGiven       Float?
+  cardAmount        Float?
+  
+  status            String   @default("completed") // completed, refunded, cancelled
+  notes             String?
+  receiptPrinted    Boolean  @default(false)
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  // Relations
+  customer          Customer? @relation(fields: [customerId], references: [id])
+  staff             User @relation(fields: [staffId], references: [id])
+  items             POSTransactionItem[]
+  invoices          Invoice[]
+
+  @@map("pos_transactions")
+}
+
+// POS Transaction Items
+model POSTransactionItem {
+  id              String  @id @default(cuid())
+  transactionId   String
+  productId       String
+  quantity        Int
+  unitPrice       Float
+  lineTotal       Float
+  discountAmount  Float @default(0)
+
+  // Relations
+  transaction     POSTransaction @relation(fields: [transactionId], references: [id], onDelete: Cascade)
+  product         Product @relation(fields: [productId], references: [id])
+
+  @@map("pos_transaction_items")
+}
+
+// Invoices
+model Invoice {
+  id                  String   @id @default(cuid())
+  invoiceNumber       String   @unique
+  type                String   // sale, order, proforma, credit_note
+  customerId          String?
+  orderId             String?
+  posTransactionId    String?
+  
+  subtotal            Float
+  taxAmount           Float
+  discountAmount      Float  @default(0)
+  totalAmount         Float
+  paidAmount          Float  @default(0)
+  
+  status              String   @default("draft") // draft, sent, paid, overdue, cancelled
+  dueDate             DateTime?
+  notes               String?
+  
+  createdAt           DateTime @default(now())
+  updatedAt           DateTime @updatedAt
+
+  // Relations
+  customer            Customer? @relation(fields: [customerId], references: [id])
+  order               Order? @relation(fields: [orderId], references: [id])
+  posTransaction      POSTransaction? @relation(fields: [posTransactionId], references: [id])
+
+  @@map("invoices")
+}
+
+// Inventory Transactions
+model InventoryTransaction {
+  id            String   @id @default(cuid())
+  productId     String
+  type          String   // sale, purchase, adjustment, return, damage
+  quantity      Int      // Positive for additions, negative for reductions
+  referenceId   String?  // Links to order_id, pos_transaction_id, etc.
+  referenceType String?  // order, pos_transaction, adjustment
+  reason        String?
+  performedBy   String
+  cost          Float?
+  
+  createdAt     DateTime @default(now())
+
+  // Relations
+  product       Product   @relation(fields: [productId], references: [id])
+  user          User @relation(fields: [performedBy], references: [id])
+
+  @@map("inventory_transactions")
+}
+
+// Store Settings
+model StoreSetting {
+  id          String   @id @default(cuid())
+  key         String   @unique
+  value       String
+  description String?
+  updatedAt   DateTime @updatedAt
+
+  @@map("store_settings")
+}
+
+// Dashboard Metrics Cache
+model DashboardMetric {
+  id        String   @id @default(cuid())
+  metric    String   @unique // today_revenue, total_orders, etc.
+  value     String   // JSON string for complex data
+  updatedAt DateTime @updatedAt
+
+  @@map("dashboard_metrics")
+}
+
+// Currency Exchange Rates
+model CurrencyRate {
+  id           String   @id @default(cuid())
+  baseCurrency String   // SCR
+  targetCurrency String // USD, EUR, etc.
+  rate         Float
+  updatedAt    DateTime @updatedAt
+
+  @@unique([baseCurrency, targetCurrency])
+  @@map("currency_rates")
+}
+
+// Activity Log
+model ActivityLog {
+  id          String   @id @default(cuid())
+  userId      String?
+  action      String   // created, updated, deleted
+  entity      String   // product, order, customer
+  entityId    String?
+  description String
+  metadata    String?  // JSON string for additional data
+  createdAt   DateTime @default(now())
+
+  @@map("activity_logs")
+}

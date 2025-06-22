@@ -128,10 +128,36 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
           </div>
         )}
 
+        {/* Stock Status */}
+        {product.currentStock !== undefined && (
+          <div className="mb-4">
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-coffee-700">Stock:</span>
+              <span className={`font-medium ${
+                product.currentStock === 0 ? 'text-red-600' : 
+                product.currentStock <= 5 ? 'text-yellow-600' : 
+                'text-green-600'
+              }`}>
+                {product.currentStock === 0 ? 'Out of Stock' : 
+                 product.currentStock <= 5 ? `Only ${product.currentStock} left` :
+                 `${product.currentStock} available`}
+              </span>
+            </div>
+            {product.currentStock > 0 && product.currentStock <= 5 && (
+              <div className="w-full bg-gray-200 rounded-full h-2 mt-1">
+                <div 
+                  className="bg-yellow-500 h-2 rounded-full" 
+                  style={{ width: `${Math.min((product.currentStock / 10) * 100, 100)}%` }}
+                ></div>
+              </div>
+            )}
+          </div>
+        )}
+
         {/* Price & Actions */}
         <div className="flex items-center justify-between pt-4 border-t border-cream-200">
           <div>
-            <span className="text-2xl font-bold text-coffee-900">${product.price}</span>
+            <span className="text-2xl font-bold text-coffee-900">₨{product.price.toFixed(2)}</span>
             {product.weight && (
               <p className="text-sm text-coffee-600">{product.weight}</p>
             )}
@@ -139,31 +165,33 @@ export default function ProductCard({ product, onAddToCart }: ProductCardProps) 
           
           <div className="flex items-center space-x-2">
             {/* Quantity Selector */}
-            <div className="flex items-center border border-coffee-300 rounded-lg">
-              <button
-                onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                className="p-1 hover:bg-coffee-100 transition-colors"
-              >
-                <span className="text-coffee-600 text-sm">-</span>
-              </button>
-              <span className="px-3 py-1 text-sm font-medium text-coffee-800">{quantity}</span>
-              <button
-                onClick={() => setQuantity(quantity + 1)}
-                className="p-1 hover:bg-coffee-100 transition-colors"
-              >
-                <Plus size={14} className="text-coffee-600" />
-              </button>
-            </div>
+            {product.inStock && product.currentStock > 0 && (
+              <div className="flex items-center border border-coffee-300 rounded-lg">
+                <button
+                  onClick={() => setQuantity(Math.max(1, quantity - 1))}
+                  className="p-1 hover:bg-coffee-100 transition-colors"
+                >
+                  <span className="text-coffee-600 text-sm">-</span>
+                </button>
+                <span className="px-3 py-1 text-sm font-medium text-coffee-800">{quantity}</span>
+                <button
+                  onClick={() => setQuantity(Math.min(quantity + 1, product.currentStock || 99))}
+                  className="p-1 hover:bg-coffee-100 transition-colors"
+                >
+                  <Plus size={14} className="text-coffee-600" />
+                </button>
+              </div>
+            )}
 
             {/* Add to Cart Button */}
             <button
               onClick={() => onAddToCart(product, quantity)}
-              disabled={!product.inStock}
+              disabled={!product.inStock || (product.currentStock !== undefined && product.currentStock === 0)}
               className="bg-coffee-600 text-white px-4 py-2 rounded-lg hover:bg-coffee-700 transition-colors flex items-center space-x-1 group disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <ShoppingCart size={16} />
               <span className="text-sm font-medium">
-                {product.inStock ? 'Add' : 'Out of Stock'}
+                {product.inStock && (product.currentStock === undefined || product.currentStock > 0) ? 'Add' : 'Out of Stock'}
               </span>
             </button>
           </div>

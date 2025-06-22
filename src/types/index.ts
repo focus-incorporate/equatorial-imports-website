@@ -12,6 +12,9 @@ export interface Product {
   compatibility?: string[];
   weight?: string;
   inStock: boolean;
+  currentStock?: number; // Optional for backward compatibility
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 export interface CartItem {

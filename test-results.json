@@ -11,7 +11,7 @@
     "grepInvert": null,
     "maxFailures": 0,
     "metadata": {
-      "actualWorkers": 1
+      "actualWorkers": 4
     },
     "preserveOutput": "always",
     "reporter": [
@@ -39,7 +39,7 @@
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 4
         },
         "id": "chromium",
         "name": "chromium",
@@ -48,14 +48,14 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 30000
+        "timeout": 60000
       },
       {
         "outputDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 4
         },
         "id": "firefox",
         "name": "firefox",
@@ -64,14 +64,14 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 30000
+        "timeout": 60000
       },
       {
         "outputDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 4
         },
         "id": "webkit",
         "name": "webkit",
@@ -80,14 +80,14 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 30000
+        "timeout": 60000
       },
       {
         "outputDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 4
         },
         "id": "Mobile Chrome",
         "name": "Mobile Chrome",
@@ -96,14 +96,14 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 30000
+        "timeout": 60000
       },
       {
         "outputDir": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results",
         "repeatEach": 1,
         "retries": 0,
         "metadata": {
-          "actualWorkers": 1
+          "actualWorkers": 4
         },
         "id": "Mobile Safari",
         "name": "Mobile Safari",
@@ -112,7 +112,7 @@
         "testMatch": [
           "**/*.@(spec|test).?(c|m)[jt]s?(x)"
         ],
-        "timeout": 30000
+        "timeout": 60000
       }
     ],
     "shard": null,
@@ -129,25 +129,25 @@
   },
   "suites": [
     {
-      "title": "complete-checkout-flow.spec.ts",
-      "file": "complete-checkout-flow.spec.ts",
+      "title": "admin-dashboard.spec.ts",
+      "file": "admin-dashboard.spec.ts",
       "column": 0,
       "line": 0,
       "specs": [],
       "suites": [
         {
-          "title": "Complete E-commerce Checkout Flow",
-          "file": "complete-checkout-flow.spec.ts",
-          "line": 18,
+          "title": "Admin Dashboard",
+          "file": "admin-dashboard.spec.ts",
+          "line": 3,
           "column": 6,
           "specs": [
             {
-              "title": "Complete checkout flow from homepage to order success",
+              "title": "should display dashboard stats cards",
               "ok": false,
               "tags": [],
               "tests": [
                 {
-                  "timeout": 30000,
+                  "timeout": 60000,
                   "annotations": [],
                   "expectedStatus": "passed",
                   "projectId": "chromium",
@@ -156,160 +156,415 @@
                     {
                       "workerIndex": 0,
                       "parallelIndex": 0,
-                      "status": "timedOut",
-                      "duration": 30660,
+                      "status": "failed",
+                      "duration": 8535,
                       "error": {
-                        "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m",
-                        "stack": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('Today\\'s Revenue')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Today\\'s Revenue')\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('Today\\'s Revenue')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Today\\'s Revenue')\u001b[22m\n\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts:11:54",
+                        "location": {
+                          "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                          "column": 54,
+                          "line": 11
+                        },
+                        "snippet": "   9 |   test('should display dashboard stats cards', async ({ page }) => {\n  10 |     // Check for stat cards\n> 11 |     await expect(page.getByText('Today\\'s Revenue')).toBeVisible();\n     |                                                      ^\n  12 |     await expect(page.getByText('Total Orders')).toBeVisible();\n  13 |     await expect(page.getByText('Active Customers')).toBeVisible();\n  14 |     await expect(page.getByText('Low Stock Items')).toBeVisible();"
                       },
                       "errors": [
                         {
-                          "message": "\u001b[31mTest timeout of 30000ms exceeded.\u001b[39m"
-                        },
-                        {
                           "location": {
-                            "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/complete-checkout-flow.spec.ts",
-                            "column": 26,
-                            "line": 270
+                            "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                            "column": 54,
+                            "line": 11
                           },
-                          "message": "Error: locator.fill: Test timeout of 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('input[name=\"address\"], textarea[name=\"address\"], input[placeholder*=\"address\"]').first()\u001b[22m\n\n\n  268 |       const districtSelect = await page.locator('select[name=\"district\"], select[id=\"district\"]').first();\n  269 |       \n> 270 |       await addressInput.fill('123 Main Street, Victoria');\n      |                          ^\n  271 |       await islandSelect.selectOption('mahe');\n  272 |       await districtSelect.selectOption('Victoria');\n  273 |       \n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/complete-checkout-flow.spec.ts:270:26\n    at trackStep (/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/complete-checkout-flow.spec.ts:106:22)\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/complete-checkout-flow.spec.ts:259:5"
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('Today\\'s Revenue')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Today\\'s Revenue')\u001b[22m\n\n\n   9 |   test('should display dashboard stats cards', async ({ page }) => {\n  10 |     // Check for stat cards\n> 11 |     await expect(page.getByText('Today\\'s Revenue')).toBeVisible();\n     |                                                      ^\n  12 |     await expect(page.getByText('Total Orders')).toBeVisible();\n  13 |     await expect(page.getByText('Active Customers')).toBeVisible();\n  14 |     await expect(page.getByText('Low Stock Items')).toBeVisible();\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts:11:54"
                         }
                       ],
-                      "stdout": [
-                        {
-                          "text": "🚀 Starting Complete Checkout Flow Test...\n"
-                        },
-                        {
-                          "text": "\n📝 Step: Navigate to Homepage\n"
-                        },
-                        {
-                          "text": "📸 Screenshot captured: checkout-01-homepage-2025-06-20T06-51-34-017Z.png\n"
-                        },
-                        {
-                          "text": "✅ Navigate to Homepage completed in 3874ms\n"
-                        },
-                        {
-                          "text": "\n📝 Step: Navigate to Coffee Page\n"
-                        },
-                        {
-                          "text": "📸 Screenshot captured: checkout-02-coffee-page-2025-06-20T06-51-36-014Z.png\n"
-                        },
-                        {
-                          "text": "   Found 10 products on page\n"
-                        },
-                        {
-                          "text": "✅ Navigate to Coffee Page completed in 1990ms\n"
-                        },
-                        {
-                          "text": "\n📝 Step: Add Product to Cart\n"
-                        },
-                        {
-                          "text": "📸 Screenshot captured: checkout-03-product-added-2025-06-20T06-51-37-446Z.png\n"
-                        },
-                        {
-                          "text": "✅ Add Product to Cart completed in 1428ms\n"
-                        },
-                        {
-                          "text": "\n📝 Step: Open Cart Drawer\n"
-                        },
-                        {
-                          "text": "📸 Screenshot captured: checkout-04-cart-opened-2025-06-20T06-51-38-836Z.png\n"
-                        },
-                        {
-                          "text": "✅ Open Cart Drawer completed in 1434ms\n"
-                        },
-                        {
-                          "text": "\n📝 Step: Click Checkout Button\n"
-                        },
-                        {
-                          "text": "📸 Screenshot captured: checkout-05-checkout-clicked-2025-06-20T06-51-41-289Z.png\n"
-                        },
-                        {
-                          "text": "✅ Click Checkout Button completed in 2187ms\n"
-                        },
-                        {
-                          "text": "\n📝 Step: Cart Review Step\n"
-                        },
-                        {
-                          "text": "📸 Screenshot captured: checkout-06-cart-review-2025-06-20T06-51-41-418Z.png\n"
-                        },
-                        {
-                          "text": "✅ Cart Review Step completed in 1135ms\n"
-                        },
-                        {
-                          "text": "\n📝 Step: Customer Information Step\n"
-                        },
-                        {
-                          "text": "📸 Screenshot captured: checkout-07-customer-info-2025-06-20T06-51-42-554Z.png\n"
-                        },
-                        {
-                          "text": "✅ Customer Information Step completed in 2197ms\n"
-                        },
-                        {
-                          "text": "\n📝 Step: Delivery Information Step\n"
-                        },
-                        {
-                          "text": "📸 Screenshot captured: checkout-08-delivery-info-2025-06-20T06-51-44-752Z.png\n"
-                        },
-                        {
-                          "text": "\n📊 Test Metrics Summary:\n"
-                        },
-                        {
-                          "text": "   Total Time: 29804ms\n"
-                        },
-                        {
-                          "text": "   Screenshots: 8\n"
-                        },
-                        {
-                          "text": "   Errors: 0\n"
-                        },
-                        {
-                          "text": "\n⏱️ Step Performance:\n"
-                        },
-                        {
-                          "text": "   Navigate to Homepage: 3874ms\n"
-                        },
-                        {
-                          "text": "   Navigate to Coffee Page: 1990ms\n"
-                        },
-                        {
-                          "text": "   Add Product to Cart: 1428ms\n"
-                        },
-                        {
-                          "text": "   Open Cart Drawer: 1434ms\n"
-                        },
-                        {
-                          "text": "   Click Checkout Button: 2187ms\n"
-                        },
-                        {
-                          "text": "   Cart Review Step: 1135ms\n"
-                        },
-                        {
-                          "text": "   Customer Information Step: 2197ms\n"
-                        },
-                        {
-                          "text": "❌ Delivery Information Step failed after 15760ms\n"
-                        }
-                      ],
+                      "stdout": [],
                       "stderr": [],
                       "retry": 0,
-                      "startTime": "2025-06-20T06:51:29.075Z",
+                      "startTime": "2025-06-21T20:03:02.553Z",
                       "annotations": [],
                       "attachments": [
                         {
                           "name": "screenshot",
                           "contentType": "image/png",
-                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/complete-checkout-flow-Com-3a0e9-m-homepage-to-order-success-chromium/test-failed-1.png"
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-82468-splay-dashboard-stats-cards-chromium/test-failed-1.png"
                         },
                         {
                           "name": "video",
                           "contentType": "video/webm",
-                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/complete-checkout-flow-Com-3a0e9-m-homepage-to-order-success-chromium/video.webm"
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-82468-splay-dashboard-stats-cards-chromium/video.webm"
                         },
                         {
                           "name": "error-context",
                           "contentType": "text/markdown",
-                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/complete-checkout-flow-Com-3a0e9-m-homepage-to-order-success-chromium/error-context.md"
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-82468-splay-dashboard-stats-cards-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                        "column": 54,
+                        "line": 11
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4e698b37550954495f8-4aeaeadb465bd7860023",
+              "file": "admin-dashboard.spec.ts",
+              "line": 9,
+              "column": 7
+            },
+            {
+              "title": "should display recent orders section",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 1,
+                      "parallelIndex": 1,
+                      "status": "failed",
+                      "duration": 8516,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('Recent Orders')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Recent Orders')\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('Recent Orders')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Recent Orders')\u001b[22m\n\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts:24:51",
+                        "location": {
+                          "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                          "column": 51,
+                          "line": 24
+                        },
+                        "snippet": "  22 |\n  23 |   test('should display recent orders section', async ({ page }) => {\n> 24 |     await expect(page.getByText('Recent Orders')).toBeVisible();\n     |                                                   ^\n  25 |     \n  26 |     // Check for order entries\n  27 |     await expect(page.getByText('ORD-001')).toBeVisible();"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                            "column": 51,
+                            "line": 24
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: getByText('Recent Orders')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for getByText('Recent Orders')\u001b[22m\n\n\n  22 |\n  23 |   test('should display recent orders section', async ({ page }) => {\n> 24 |     await expect(page.getByText('Recent Orders')).toBeVisible();\n     |                                                   ^\n  25 |     \n  26 |     // Check for order entries\n  27 |     await expect(page.getByText('ORD-001')).toBeVisible();\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts:24:51"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-21T20:03:02.555Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-886c0-splay-recent-orders-section-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-886c0-splay-recent-orders-section-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-886c0-splay-recent-orders-section-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                        "column": 51,
+                        "line": 24
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4e698b37550954495f8-20671b5a723bcf5edffe",
+              "file": "admin-dashboard.spec.ts",
+              "line": 23,
+              "column": 7
+            },
+            {
+              "title": "should display top products section",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 2,
+                      "parallelIndex": 2,
+                      "status": "failed",
+                      "duration": 8524,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('text=Top Products')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Top Products')\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('text=Top Products')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Top Products')\u001b[22m\n\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts:33:53",
+                        "location": {
+                          "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                          "column": 53,
+                          "line": 33
+                        },
+                        "snippet": "  31 |\n  32 |   test('should display top products section', async ({ page }) => {\n> 33 |     await expect(page.locator('text=Top Products')).toBeVisible();\n     |                                                     ^\n  34 |     \n  35 |     // Check for product entries\n  36 |     await expect(page.locator('text=Intenso Capsules')).toBeVisible();"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                            "column": 53,
+                            "line": 33
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('text=Top Products')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Top Products')\u001b[22m\n\n\n  31 |\n  32 |   test('should display top products section', async ({ page }) => {\n> 33 |     await expect(page.locator('text=Top Products')).toBeVisible();\n     |                                                     ^\n  34 |     \n  35 |     // Check for product entries\n  36 |     await expect(page.locator('text=Intenso Capsules')).toBeVisible();\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts:33:53"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-21T20:03:02.553Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-6db1d-isplay-top-products-section-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-6db1d-isplay-top-products-section-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-6db1d-isplay-top-products-section-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                        "column": 53,
+                        "line": 33
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4e698b37550954495f8-e31c5d0e7cf9fc02f688",
+              "file": "admin-dashboard.spec.ts",
+              "line": 32,
+              "column": 7
+            },
+            {
+              "title": "should display quick actions",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 3,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 8510,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('text=Quick Actions')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Quick Actions')\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('text=Quick Actions')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Quick Actions')\u001b[22m\n\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts:41:54",
+                        "location": {
+                          "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                          "column": 54,
+                          "line": 41
+                        },
+                        "snippet": "  39 |\n  40 |   test('should display quick actions', async ({ page }) => {\n> 41 |     await expect(page.locator('text=Quick Actions')).toBeVisible();\n     |                                                      ^\n  42 |     \n  43 |     // Check for action buttons\n  44 |     await expect(page.locator('text=New POS Sale')).toBeVisible();"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                            "column": 54,
+                            "line": 41
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('text=Quick Actions')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('text=Quick Actions')\u001b[22m\n\n\n  39 |\n  40 |   test('should display quick actions', async ({ page }) => {\n> 41 |     await expect(page.locator('text=Quick Actions')).toBeVisible();\n     |                                                      ^\n  42 |     \n  43 |     // Check for action buttons\n  44 |     await expect(page.locator('text=New POS Sale')).toBeVisible();\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts:41:54"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-21T20:03:02.551Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dashboard-should-display-quick-actions-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dashboard-should-display-quick-actions-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dashboard-should-display-quick-actions-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                        "column": 54,
+                        "line": 41
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4e698b37550954495f8-d87e7b4b45bd437a6a7b",
+              "file": "admin-dashboard.spec.ts",
+              "line": 40,
+              "column": 7
+            },
+            {
+              "title": "should have working sidebar navigation",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 4,
+                      "parallelIndex": 3,
+                      "status": "failed",
+                      "duration": 7267,
+                      "error": {
+                        "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('[class*=\"coffee-900\"]').first().getByText('POS System')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[class*=\"coffee-900\"]').first().getByText('POS System')\u001b[22m\n",
+                        "stack": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('[class*=\"coffee-900\"]').first().getByText('POS System')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[class*=\"coffee-900\"]').first().getByText('POS System')\u001b[22m\n\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts:54:51",
+                        "location": {
+                          "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                          "column": 51,
+                          "line": 54
+                        },
+                        "snippet": "  52 |     const sidebar = page.locator('[class*=\"coffee-900\"]').first();\n  53 |     await expect(sidebar.getByText('Dashboard')).toBeVisible();\n> 54 |     await expect(sidebar.getByText('POS System')).toBeVisible();\n     |                                                   ^\n  55 |     await expect(sidebar.getByText('Products')).toBeVisible();\n  56 |     await expect(sidebar.getByText('Orders')).toBeVisible();\n  57 |     await expect(sidebar.getByText('Customers')).toBeVisible();"
+                      },
+                      "errors": [
+                        {
+                          "location": {
+                            "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                            "column": 51,
+                            "line": 54
+                          },
+                          "message": "Error: \u001b[31mTimed out 5000ms waiting for \u001b[39m\u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoBeVisible\u001b[2m()\u001b[22m\n\nLocator: locator('[class*=\"coffee-900\"]').first().getByText('POS System')\nExpected: visible\nReceived: <element(s) not found>\nCall log:\n\u001b[2m  - Expect \"toBeVisible\" with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('[class*=\"coffee-900\"]').first().getByText('POS System')\u001b[22m\n\n\n  52 |     const sidebar = page.locator('[class*=\"coffee-900\"]').first();\n  53 |     await expect(sidebar.getByText('Dashboard')).toBeVisible();\n> 54 |     await expect(sidebar.getByText('POS System')).toBeVisible();\n     |                                                   ^\n  55 |     await expect(sidebar.getByText('Products')).toBeVisible();\n  56 |     await expect(sidebar.getByText('Orders')).toBeVisible();\n  57 |     await expect(sidebar.getByText('Customers')).toBeVisible();\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts:54:51"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-21T20:03:11.881Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-0da07--working-sidebar-navigation-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-0da07--working-sidebar-navigation-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-0da07--working-sidebar-navigation-chromium/error-context.md"
+                        }
+                      ],
+                      "errorLocation": {
+                        "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                        "column": 51,
+                        "line": 54
+                      }
+                    }
+                  ],
+                  "status": "unexpected"
+                }
+              ],
+              "id": "d4e698b37550954495f8-34fc103974be7e4cc1c2",
+              "file": "admin-dashboard.spec.ts",
+              "line": 50,
+              "column": 7
+            },
+            {
+              "title": "should navigate to POS system",
+              "ok": false,
+              "tags": [],
+              "tests": [
+                {
+                  "timeout": 60000,
+                  "annotations": [],
+                  "expectedStatus": "passed",
+                  "projectId": "chromium",
+                  "projectName": "chromium",
+                  "results": [
+                    {
+                      "workerIndex": 5,
+                      "parallelIndex": 1,
+                      "status": "timedOut",
+                      "duration": 61372,
+                      "error": {
+                        "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m",
+                        "stack": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                      },
+                      "errors": [
+                        {
+                          "message": "\u001b[31mTest timeout of 60000ms exceeded.\u001b[39m"
+                        },
+                        {
+                          "location": {
+                            "file": "/Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts",
+                            "column": 43,
+                            "line": 65
+                          },
+                          "message": "Error: locator.click: Test timeout of 60000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('[class*=\"coffee-900\"]').first().getByText('POS System')\u001b[22m\n\n\n  63 |     // Click POS System in sidebar\n  64 |     const sidebar = page.locator('[class*=\"coffee-900\"]').first();\n> 65 |     await sidebar.getByText('POS System').click();\n     |                                           ^\n  66 |     await expect(page).toHaveURL('/admin/pos');\n  67 |     await expect(page.getByText('Point of Sale')).toBeVisible();\n  68 |   });\n    at /Users/ether/Documents/GitHub/equatorial-imports-website/e2e/admin-dashboard.spec.ts:65:43"
+                        }
+                      ],
+                      "stdout": [],
+                      "stderr": [],
+                      "retry": 0,
+                      "startTime": "2025-06-21T20:03:11.882Z",
+                      "annotations": [],
+                      "attachments": [
+                        {
+                          "name": "screenshot",
+                          "contentType": "image/png",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-ca2e1-ould-navigate-to-POS-system-chromium/test-failed-1.png"
+                        },
+                        {
+                          "name": "video",
+                          "contentType": "video/webm",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-ca2e1-ould-navigate-to-POS-system-chromium/video.webm"
+                        },
+                        {
+                          "name": "error-context",
+                          "contentType": "text/markdown",
+                          "path": "/Users/ether/Documents/GitHub/equatorial-imports-website/test-results/admin-dashboard-Admin-Dash-ca2e1-ould-navigate-to-POS-system-chromium/error-context.md"
                         }
                       ]
                     }
@@ -317,9 +572,9 @@
                   "status": "unexpected"
                 }
               ],
-              "id": "db2d50f86363de72574b-42fb5cab8eee28f52b46",
-              "file": "complete-checkout-flow.spec.ts",
-              "line": 119,
+              "id": "d4e698b37550954495f8-ec0d04020f9e334e5671",
+              "file": "admin-dashboard.spec.ts",
+              "line": 62,
               "column": 7
             }
           ]
@@ -329,11 +584,11 @@
   ],
   "errors": [],
   "stats": {
-    "startTime": "2025-06-20T06:51:23.841Z",
-    "duration": 37851.307,
+    "startTime": "2025-06-21T20:03:02.081Z",
+    "duration": 71375.157,
     "expected": 0,
     "skipped": 0,
-    "unexpected": 1,
+    "unexpected": 6,
     "flaky": 0
   }
 }
