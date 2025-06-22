@@ -158,20 +158,22 @@ export async function POST(request: NextRequest) {
           where: { role: 'admin', isActive: true }
         });
         
-        if (adminUser) {
-          await tx.inventoryTransaction.create({
-            data: {
-              productId: item.productId,
-              type: 'sale',
-              quantity: -item.quantity, // Negative for sale
-              referenceId: order.id,
-              referenceType: 'order',
-              reason: 'Online Order',
-              performedBy: adminUser.id,
-              cost: item.price * item.quantity,
-            },
-          });
+        if (!adminUser) {
+          throw new Error('No admin user found for inventory transaction');
         }
+
+        await tx.inventoryTransaction.create({
+          data: {
+            productId: item.productId,
+            type: 'sale',
+            quantity: -item.quantity, // Negative for sale
+            referenceId: order.id,
+            referenceType: 'order',
+            reason: 'Online Order',
+            performedBy: adminUser.id,
+            cost: item.price * item.quantity,
+          },
+        });
       }
 
       // Award loyalty points (1 point per SCR spent)
